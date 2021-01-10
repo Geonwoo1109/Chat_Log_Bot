@@ -12,38 +12,22 @@ var 시간 = (hour+":"+minutes+":"+seconds);
   
   try {
   if (room == "카톡봇 테스트방") {
+    if (Log.length > 50) Log.pop();
     
-    
-    if (Log.length > 50) {
-      Log.pop();
-    } 
-    Log.unshift(시간 + " " + sender + "님\n> " + msg + "\n");
+   Log.unshift(시간 + " " + sender + "님\n> " + msg + "\n");
    Fs.write("/sdcard/Test1/Test1", Log);
-   //replier.reply (Fs.read ("/sdcard/Test1/Test1"));
     
     if (msg.startsWith(".로그 ")) {
-      replier.reply  (Log [0] + Log [1]);
-      replier.reply (시간);
-      
-      if (msg.substr(4) < Log.length) {
-        replier.reply  ("1");
+       var b = [];
         for (i = 0; i < msg.substr(4); i++) {
-          Fs.append("/sdcard/Test1/Test1", Log [i]);
-          replier.reply  (i + 1 + "번째");
-          
-          replier.reply (Log [i]);
+          b.push(Fs.read ("/sdcard/Test1/Test1")[i]);
         }
-        replier.reply (Fs.read ("/sdcard/Test1/Test1"));
-      } else {
-        replier.reply  ("2");
-        for (i = 0; i < Log.length; i++) {
-          replier.reply  (i);
-          replier.reply (Fs.read ("/sdcard/Test1/Test1")[i]);
-        }
-      }
+        replier.reply (b);
+      
     }
     if (msg == ".리셋") {
       Fs.remove ("/sdcard/Test1/Test1");
+      Log = [];
     }
     
     
