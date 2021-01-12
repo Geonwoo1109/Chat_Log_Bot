@@ -4,46 +4,36 @@ var allsee = "\u200d".repeat (500);
 var Log = [];
 
 function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
+
 var 날짜 = new Date();
 var hour = 날짜.getHours();
 var minutes = 날짜.getMinutes();
 var seconds = 날짜.getSeconds();
-
 var 시간 = ("["+hour+":"+minutes+":"+seconds+"]");
-  
-  try {
 
-    
-   //Log.push(시간 + " " + sender + "\n=> " + msg + "☆♡♧");
+  try {
    Fs.append("/sdcard/Chatlog.v2/" + room,
    시간 + " " + sender + "\n=> " + msg + "☆♡♧");
-   
    Log = Fs.read ("/sdcard/Chatlog.v2/" + room).split ("☆♡♧").reverse ();
-    
+   
     if (msg.startsWith(".로그 ")) {
-
+      
        var b = [];
+       
         for (i = 0; i < msg.substr(4) * 1 + 1; i++) {
-          //replier.reply (i);
           b.push(Log[i]);
         }
+        
         replier.reply (
-        "최근 "+ msg.substr(4) +"개의 메시지"+allsee + b.join("\n\n")
-        );
+        "최근 "+ msg.substr(4) +"개의 메시지"+allsee + b.join("\n\n") );
         b = [];
-      
     }
+    
     if (msg == ".리셋") {
       Fs.remove ("/sdcard/Chatlog.v2/" + room);
       replier.reply (room + "에 저장된 기록이 리셋되었습니다.");
-      //Log = [];
     }
     
-    
-    
-    
-    
-  
   } catch  (e) {
     replier.reply (e);
   }
